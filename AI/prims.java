@@ -1,10 +1,10 @@
 import java.util.*;
 
-public class Main {
+public class prims {
   static int minKey(int key[], boolean vis[]) {
   	int min = (int)1e9, idx = -1;
   	for (int i = 0; i < key.length; i++) 
-  		if (key[i] < min) {
+  		if (key[i] < min && vis[i] == false) {
   			min = key[i]; 
   			idx = i;
   		}
