@@ -14,23 +14,24 @@ public class new_bfs_dfs {
     Traverse t = new Traverse();
     boolean visDfs[] = new boolean[vertices];
     t.dfs(graph, 0, visDfs);
+    System.out.println();
     
     boolean visBfs[] = new boolean[vertices];
-    t.bfs(graph, 0, visBfs);
+    t.bfs(graph, 0, visBfs); 
   }
 }
 
 class Traverse {
-  void dfs(int graph[][], int node, boolean vis[]) {
-      vis[node] = true;
-      System.out.print(node + " ");
-      for (int i = 0; i < graph.length; i++) {
-        if (graph[node][i] == 1 && !vis[i]) {
-          dfs(graph, i, vis);
+  void dfs(int graph[][], int currNode, boolean vis[]) {
+      vis[currNode] = true;
+      System.out.print(currNode + " ");
+      for (int nextNode = 0; nextNode < graph.length; nextNode++) {
+        if (graph[currNode][nextNode] == 1 && !vis[nextNode]) {
+          dfs(graph, nextNode, vis);
         }
       }
       
-      System.out.println();
+      //System.out.println();
   }
   
   void bfs(int graph[][], int node, boolean vis[]) {
@@ -43,10 +44,10 @@ class Traverse {
       int size = q.size();
       for (int i = 0; i < size; i++) {
         int currNode = q.poll();
-        for (int adjNode = 0; adjNode < graph.length; adjNode++) 
-          if (graph[currNode][adjNode] == 1 && !vis[adjNode]) {
-            vis[adjNode] = true;
-            q.add(adjNode);
+        for (int nextNode = 0; nextNode < graph.length; nextNode++) 
+          if (graph[currNode][nextNode] == 1 && !vis[nextNode]) {
+            vis[nextNode] = true;
+            q.add(nextNode);
           }
       }
     }
