@@ -1,48 +1,34 @@
 import random
-import string
-import nltk
-from nltk.chat.util import Chat, reflections
 
-# Define pairs of patterns and responses
-patterns = [
-    (r'hello|hi|hey', ['Hello!', 'Hey there!', 'Hi!']),
-    (r'how are you?', ["I'm doing well, thank you!", "I'm good, thanks!"]),
-    (r'what can you do for me?', ["I can offer you a discount! Just tell me the total amount of your purchase."]),
-    (r'bye|goodbye', ['Goodbye!', 'Have a great day!', 'Bye!']),
-    (r'Thank you|Thx|thx|thank you', ['Welcome']),
-    (r'Is there any other discount?',['Sorry! There are no other discounts.']),
-    (r'On what categories the discounts are applied?',['Electronics, Accessories and many more']),
-    (r'After what amount the discounts can be applied?',['It can be applied on any amount.']),
-    (r'Till which date this discount is valid?',['Tomorrow']),
-    (r'.*', ["I'm sorry, I didn't understand that.", "Could you please repeat that?"])
-]
+# Define responses based on user input
+responses = {
+    "hi": ["Hello!", "Hi there!", "Hey!"],
+    "how are you": ["I'm good, thank you!", "Feeling great!", "Pretty good!"],
+    "bye": ["Goodbye!", "See you later!", "Bye! Have a nice day!"],
+    "what's your name": ["I'm a chatbot!", "You can call me ChatBot.", "I don't have a name, I'm just a bot."],
+    "who created you": ["I was created by a programmer.", "I'm a creation of human intelligence.", "My creator is someone smart!"],
+    "what is the weather today": ["I'm sorry, I don't have access to weather information.", "You can check a weather website or app for that information."],
+    "tell me a joke": ["Why was the math book sad? Because it had too many problems!", "Why don't skeletons fight each other? They don't have the guts!", "I'm not very good at telling jokes, but here's one: Why did the scarecrow win an award? Because he was outstanding in his field!"],
+    "thank you": ["You're welcome!", "No problem!", "Glad I could help!"],
+    "default": ["I'm not sure I understand.", "Could you please rephrase that?", "Sorry, I didn't get that."]
+}
 
-# Create a chatbot with the defined patterns
-chatbot = Chat(patterns, reflections)
+# Function to generate response
+def respond(message):
+    message = message.lower()  # Convert message to lowercase
+    response = responses.get(message, responses["default"])  # Get response from dictionary
+    return random.choice(response)  # Return a random response from the list
 
-def generate_discount_code(length=8):
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
-
-def discount_chatbot():
-    print("Welcome to our store! How can I assist you today?")
+# Main function to interact with the user
+def main():
+    print("Chatbot: Hello! How can I assist you today? (Type 'bye' to exit)")
     while True:
-        user_input = input().lower()
-
-        # Check if the user input is a number (purchase cost)
-        if user_input.isdigit():
-            purchase_cost = float(user_input)
-            discount_amount = purchase_cost * 0.10  # 10% discount
-            discounted_total = purchase_cost - discount_amount
-            print(f"With a 10% discount, your total amount is: ${discounted_total:.2f}")
-            print(f"Your discount code is: {generate_discount_code()}")
-            continue  # Skip the "I'm sorry" response
-
-        response = chatbot.respond(user_input)
-        print(response)
-
-        if user_input.lower() in ['bye', 'goodbye', 'exit']:
-            print("Thank you for visiting us. Have a great day!")
+        user_input = input("User: ")
+        if user_input.lower() == "bye":
+            print("Chatbot: Goodbye!")
             break
+        else:
+            print("Chatbot:", respond(user_input))
 
 if __name__ == "__main__":
-    discount_chatbot()
+    main()
